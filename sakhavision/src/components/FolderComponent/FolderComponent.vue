@@ -16,7 +16,11 @@ export default defineComponent({
   },
   methods: {
     selectedFolder() {
+      console.log('this.folder.id', this.folder.id)
       this.$emit('selectFolder', this.folder.id)
+    },
+    selectFolderChild(value: number) {
+      this.$emit('selectFolder', value)
     }
   }
 })
@@ -27,12 +31,14 @@ export default defineComponent({
     <img class="down-arrow"
          v-if="folder.children.length > 0"
          @click="isArrowTriggered = !isArrowTriggered" src="../../assets/down-arrow.svg" alt="down-arrow" />
-    <span>{{folder.name}}</span>
-    <input type="checkbox" v-model="isSelect" @click="selectedFolder()"
-           :disabled="(idSelectedFolder !== 0) && (idSelectedFolder !== folder.id)">
-    <div v-if="isArrowTriggered && (folder.children.length > 0)">
+    <span class="name-folder">{{folder.name}}</span>
+    <input class="check-box" type="checkbox" v-model="isSelect" @click="selectedFolder()"
+           :disabled="(idSelectedFolder.id !== 0) && (idSelectedFolder.id !== folder.id)">
+    <div class="children" v-if="isArrowTriggered && (folder.children.length > 0)">
       <div v-for="(child, index) in folder.children" :key="index">
-        <FolderComponent :folder="child" :idSelectedFolder="idSelectedFolder"></FolderComponent>
+        <FolderComponent :folder="child"
+                         :idSelectedFolder="idSelectedFolder"
+                         @select-folder="selectFolderChild"></FolderComponent>
       </div>
     </div>
   </div>
@@ -41,11 +47,38 @@ export default defineComponent({
 <style scoped>
 
   .folder-container {
-
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 
     .down-arrow {
-      height: 20px;
+      height: 15px;
       width: auto;
+      grid-column-start: 1;
+      grid-column-end: 1;
+      grid-row-start: 1;
+      grid-row-end: 1;
+    }
+
+    .name-folder {
+      grid-column-start: 2;
+      grid-column-end: 2;
+      grid-row-start: 1;
+      grid-row-end: 1;
+    }
+
+    .check-box {
+      grid-column-start: 3;
+      grid-column-end: 3;
+      grid-row-start: 1;
+      grid-row-end: 1;
+    }
+
+    .children {
+      display: grid;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      grid-row-start: 2;
+      grid-row-end: 2;
     }
   }
 

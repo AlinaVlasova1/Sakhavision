@@ -1,6 +1,6 @@
 <script lang="ts">
 
-import {defineComponent} from "vue";
+import {defineComponent, reactive} from "vue";
 import FolderComponent from "@/components/FolderComponent/FolderComponent.vue";
 import {mockFolders} from "@/mock/mock-folders";
 
@@ -10,14 +10,13 @@ export default defineComponent({
   props: ['title', 'isModalWindowTriggered'],
   data() {
     return {
-      idSelectedFolder: 0
     }
   },
   setup() {
-    // const idSelectedFolder = ref(0);
-    // return {
-    //   idSelectedFolder
-    // }
+    const idSelectedFolder = reactive({id: 0});
+    return {
+      idSelectedFolder
+    }
   },
   methods: {
     mockFolders() {
@@ -25,18 +24,19 @@ export default defineComponent({
     },
     activatedButton() {
       this.closeWindow();
+      this.$emit('select', this.idSelectedFolder);
     },
     closeWindow() {
       this.$emit('isModalWindowTriggered');
     },
     selectFolder(value: number) {
       console.log('value',value);
-      if (this.idSelectedFolder !== value) {
-        this.idSelectedFolder = value;
+      if (this.idSelectedFolder.id !== value) {
+        this.idSelectedFolder.id = value;
       } else {
-        this.idSelectedFolder = 0;
+        this.idSelectedFolder.id = 0;
       }
-
+      console.log('this.idSelectedFolder selectFolder',this.idSelectedFolder);
     }
   }
 })
@@ -49,7 +49,7 @@ export default defineComponent({
       <div class="tree">
         <div v-for="(folder, index) in mockFolders()" :key="index">
           <FolderComponent :folder="folder" :idSelectedFolder="idSelectedFolder"
-          @select-folder="selectFolder()"></FolderComponent>
+          @select-folder="selectFolder"></FolderComponent>
         </div>
       </div>
       <div class="buttons">
@@ -74,10 +74,17 @@ export default defineComponent({
   justify-content: center;
 
   .pop-up-inner {
-    background-color: wheat;
+    background-color: #80ADF0;
     height: 500px;
     width: 500px;
     position: relative;
+    border-radius: 5px;
+
+    .tree {
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
 
     .buttons {
@@ -88,6 +95,18 @@ export default defineComponent({
       left: auto;
       display: block;
       width: 100%;
+
+      button {
+        background-color: #2c3e50;
+        color: white;
+        border-radius: 5px;
+        padding: 8px 10px;
+        border: none;
+      }
+
+      button:first-child {
+        margin-right: 10px;
+      }
     }
   }
 }
