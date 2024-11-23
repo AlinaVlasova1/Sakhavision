@@ -8,10 +8,6 @@ export default defineComponent({
   name: "ModalWindow",
   components: {FolderComponent},
   props: ['title', 'isModalWindowTriggered'],
-  data() {
-    return {
-    }
-  },
   setup() {
     const idSelectedFolder = reactive({id: 0});
     return {
@@ -30,13 +26,11 @@ export default defineComponent({
       this.$emit('isModalWindowTriggered');
     },
     selectFolder(value: number) {
-      console.log('value',value);
       if (this.idSelectedFolder.id !== value) {
         this.idSelectedFolder.id = value;
       } else {
         this.idSelectedFolder.id = 0;
       }
-      console.log('this.idSelectedFolder selectFolder',this.idSelectedFolder);
     }
   }
 })
@@ -61,53 +55,54 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.pop-up {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 99;
-  background-color: rgba(10, 31, 56, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
-  .pop-up-inner {
-    background-color: #80ADF0;
-    height: 500px;
-    width: 500px;
-    position: relative;
-    border-radius: 5px;
+  .pop-up {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 99;
+    background-color: rgba(10, 31, 56, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    .tree {
-      width: 90%;
-      margin-left: auto;
-      margin-right: auto;
-    }
+    .pop-up-inner {
+      background-color: #80ADF0;
+      height: 500px;
+      width: 500px;
+      position: relative;
+      border-radius: 5px;
 
-
-    .buttons {
-      position: absolute;
-      bottom: 10%;
-      top: auto;
-      right: auto;
-      left: auto;
-      display: block;
-      width: 100%;
-
-      button {
-        background-color: #2c3e50;
-        color: white;
-        border-radius: 5px;
-        padding: 8px 10px;
-        border: none;
+      .tree {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
       }
 
-      button:first-child {
-        margin-right: 10px;
+
+      .buttons {
+        position: absolute;
+        bottom: 10%;
+        top: auto;
+        right: auto;
+        left: auto;
+        display: block;
+        width: 100%;
+
+        button {
+          background-color: #2c3e50;
+          color: white;
+          border-radius: 5px;
+          padding: 8px 10px;
+          border: none;
+        }
+
+        button:first-child {
+          margin-right: 10px;
+        }
       }
     }
   }
-}
 </style>

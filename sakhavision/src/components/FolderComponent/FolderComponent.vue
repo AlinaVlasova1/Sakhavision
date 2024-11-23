@@ -11,12 +11,8 @@ export default defineComponent({
       isSelect: false,
     }
   },
-  setup(props) {
-    console.log('props.idSelectedFolder', props.idSelectedFolder)
-  },
   methods: {
     selectedFolder() {
-      console.log('this.folder.id', this.folder.id)
       this.$emit('selectFolder', this.folder.id)
     },
     selectFolderChild(value: number) {

@@ -10,14 +10,12 @@ export default defineComponent({
     return {
       isModalWindowTriggered: false as boolean,
       titleHeaderWindow: 'Заголовок модального окна' as string,
-      idSelectedFolder: 0 as number
+      idSelectedFolderInModalWindow: 0 as number
     }
   },
   methods: {
     select(value: number) {
-      console.log('select value',value);
-      this.idSelectedFolder = value;
-      console.log('select',this.idSelectedFolder);
+      this.idSelectedFolderInModalWindow = value;
     }
   }
 })
