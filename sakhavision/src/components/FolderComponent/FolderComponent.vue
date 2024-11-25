@@ -4,19 +4,18 @@ import {defineComponent} from "vue";
 
 export default defineComponent({
   name: "FolderComponent",
-  props: ['folder', 'idSelectedFolder'],
+  props: ['folder', 'selectedFolder'],
   data() {
     return {
       isArrowTriggered: false as boolean,
-      isSelect: false,
     }
   },
   methods: {
-    selectedFolder() {
+    selectFolder() {
       this.$emit('selectFolder', this.folder.id)
     },
-    selectFolderChild(value: number) {
-      this.$emit('selectFolder', value)
+    selectFolderChild(id: number) {
+      this.$emit('selectFolder', id)
     }
   }
 })
@@ -28,12 +27,12 @@ export default defineComponent({
          v-if="folder.children.length > 0"
          @click="isArrowTriggered = !isArrowTriggered" src="../../assets/down-arrow.svg" alt="down-arrow" />
     <span class="name-folder">{{folder.name}}</span>
-    <input class="check-box" type="checkbox" v-model="isSelect" @click="selectedFolder()"
-           :disabled="(idSelectedFolder.id !== 0) && (idSelectedFolder.id !== folder.id)">
+    <input class="check-box" type="checkbox" @click="selectFolder()"
+           :disabled="(selectedFolder.id !== 0) && (selectedFolder.id !== folder.id)">
     <div class="children" v-if="isArrowTriggered && (folder.children.length > 0)">
       <div v-for="(child, index) in folder.children" :key="index">
         <FolderComponent :folder="child"
-                         :idSelectedFolder="idSelectedFolder"
+                         :selectedFolder="selectedFolder"
                          @select-folder="selectFolderChild"></FolderComponent>
       </div>
     </div>

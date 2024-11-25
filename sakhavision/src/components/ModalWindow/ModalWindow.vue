@@ -9,28 +9,24 @@ export default defineComponent({
   components: {FolderComponent},
   props: ['title', 'isModalWindowTriggered'],
   setup() {
-    const idSelectedFolder = reactive({id: 0});
+    const selectedFolder = reactive({id: 0});
     return {
-      idSelectedFolder
+      selectedFolder
     }
   },
   methods: {
     mockFolders() {
       return mockFolders
     },
-    activatedButton() {
+    activateButton() {
       this.closeWindow();
-      this.$emit('select', this.idSelectedFolder);
+      this.$emit('select', this.selectedFolder);
     },
     closeWindow() {
       this.$emit('isModalWindowTriggered');
     },
-    selectFolder(value: number) {
-      if (this.idSelectedFolder.id !== value) {
-        this.idSelectedFolder.id = value;
-      } else {
-        this.idSelectedFolder.id = 0;
-      }
+    selectFolder(id: number) {
+      this.selectedFolder.id = this.selectedFolder.id === id ? 0 : id;
     }
   }
 })
@@ -42,12 +38,12 @@ export default defineComponent({
       <h1>{{title}}</h1>
       <div class="tree">
         <div v-for="(folder, index) in mockFolders()" :key="index">
-          <FolderComponent :folder="folder" :idSelectedFolder="idSelectedFolder"
+          <FolderComponent :folder="folder" :selectedFolder="selectedFolder"
           @select-folder="selectFolder"></FolderComponent>
         </div>
       </div>
       <div class="buttons">
-        <button @click="activatedButton()">Ок</button>
+        <button @click="activateButton()">Ок</button>
         <button @click="closeWindow()">Закрыть</button>
       </div>
     </div>
